@@ -1,5 +1,5 @@
 const express = require('express');
-const { signupController, signinController } = require('../controllers/auth.controller');
+const { signupController, signinController, verifyEmailController } = require('../controllers/auth.controller');
 const validate = require('../middlewares/validate');
 const {
     signupValidator,
@@ -19,5 +19,7 @@ authRouter.post(
     validate(signinValidator),
     signinController
 );
+
+authRouter.get('/verifyEmail/:verificationToken', verifyEmailController);
 
 module.exports = authRouter;

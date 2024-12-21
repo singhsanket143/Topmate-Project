@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'); // Import mongoose
-const bcrypt = require('bcryptjs'); // Import bcrypt
+const bcrypt = require('bcrypt'); // Import bcrypt
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -30,6 +30,16 @@ const userSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         default: false
+    },
+    verificationToken: {
+        value: {
+            type: String,
+            default: ""
+        },
+        expires: {
+            type: Date,
+            default: () => Date.now() + 3600000 // 1 hour
+        }
     },
     profile: {
         title: {
@@ -75,9 +85,13 @@ const userSchema = new mongoose.Schema({
 
 // Hook to hash the password before user is saved
 userSchema.pre('save', async function (next) {
-    if(this.password) {
+    if(this.isNew && this.password) {
         const salt = await bcrypt.genSalt(10); // Generate salt
         this.password = await bcrypt.hash(this.password, salt); // Hash password
+    }
+    if(this.isNew) {
+        this.avatar = `https://robohash.org/${this.username}`; // Generate avatar
+        this.verificationToken.value = Math.random().toString(36).substring(7); // Generate verification
     }
     next();
 });
