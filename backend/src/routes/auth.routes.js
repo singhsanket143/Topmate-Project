@@ -1,6 +1,6 @@
 const express = require('express');
 const { signupController, signinController, verifyEmailController } = require('../controllers/auth.controller');
-const validate = require('../middlewares/validate');
+const { validateBody } = require('../middlewares/validate');
 const {
     signupValidator,
     signinValidator
@@ -10,13 +10,13 @@ const authRouter = express.Router();
 
 authRouter.post(
     '/signup',
-    validate(signupValidator),
+    validateBody(signupValidator),
     signupController,
 );
 
 authRouter.post(
     '/signin', 
-    validate(signinValidator),
+    validateBody(signinValidator),
     signinController
 );
 
