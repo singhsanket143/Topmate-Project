@@ -6,7 +6,7 @@ const userRepository = {
     getUserByEmail: async function (email) {
         const userDoc = await User.findOne({
             email: email
-        });
+        }).select('+password');
         return userDoc;
     }
 }

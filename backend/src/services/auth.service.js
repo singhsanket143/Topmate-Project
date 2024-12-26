@@ -1,6 +1,6 @@
 const userRepository = require("../repositories/user.repository");
 const BadRequest = require("../utils/errors/badRequestError");
-
+const NotFound = require("../utils/errors/notFoundError");
 async function signupUserService(userData) {
     try {
         const user = await userRepository.create(userData);
@@ -14,6 +14,34 @@ async function signupUserService(userData) {
     }
 }
 
+async function signinUserService(userData) {
+    const { email, password } = userData;
+
+    // 1. Fetch the user details by the email id
+    const user = await userRepository.getUserByEmail(email);
+
+    // 2. If the user is not found, throw an error
+    if(!user) {
+        throw new NotFound("User for the given email not found");
+    }
+
+    // 3. Compare the incoming password with the user hashed stored password
+    const isPasswordMatching = await user.comparePassword(password);
+
+    // 4. If the password is not matching, throw an error
+    if(!isPasswordMatching) {
+        throw new BadRequest("Invalid password provided");
+    }
+
+    // 5. Create a new JWT token
+    const token = "12345"; // TODO: Implement JWT token generation
+
+    return token;
+
+}
+
+
 module.exports = {
-    signupUserService
+    signupUserService,
+    signinUserService
 }

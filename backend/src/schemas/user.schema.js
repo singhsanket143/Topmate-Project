@@ -96,6 +96,11 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+// Instance mwethod to compare password
+userSchema.methods.comparePassword = async function (incomingPassword) {
+    return bcrypt.compareSync(incomingPassword, this.password);
+}
+
 const User = mongoose.model('User', userSchema); // Create a modelc / collection
 
 module.exports = User; // Export model
