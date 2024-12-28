@@ -6,6 +6,8 @@ require('express-async-errors'); // Importing express-async-errors library
 const router = require('./routes');
 const { ROUTE_PREFIX } = require('./config');
 const { errorHandler } = require('./middlewares/error');
+const { StatusCodes } = require('http-status-codes');
+const { protect } = require('./middlewares/auth');
 
 // Create a new express app object
 const app = express();
@@ -19,6 +21,14 @@ app.use(cookieParser()); // Enable cookie parsing
 
 app.use(ROUTE_PREFIX, router); // Use router for /api/v1 path
 
+app.get('/ping', protect, (req, res) => {
+    return res.status(StatusCodes.OK).json({
+        message: "pong",
+        success: true
+    })
+})
+
 app.use(errorHandler); // Use errorHandler middleware
+
 
 module.exports = app; // Exporting app object

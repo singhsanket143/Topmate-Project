@@ -26,9 +26,12 @@ const generateToken = (userId, expiresIn, secretKey) => {
  */
 const generateAuthToken = (user) => {
     // 1. Create expiry object
+    console.log(new Date(moment()));
     const accessTokenExpires = moment().add(
-        JWT_CONFIG.ACCESS_EXPIRY
+        JWT_CONFIG.ACCESS_EXPIRY, "hour"
     );
+
+    console.log(new Date(accessTokenExpires));
 
     // 2. Generate the token
     const accessToken = generateToken(
@@ -48,7 +51,7 @@ const generateAuthToken = (user) => {
 const generateVerificationToken = (id) => {
     // 1. Create expiry object
     const verificationTokenExpires = moment().add(
-        JWT_CONFIG.VERIFICATION_EXPIRY
+        JWT_CONFIG.VERIFICATION_EXPIRY, "hour"
     );
 
     // 2. Generate the token
@@ -69,7 +72,7 @@ const generateVerificationToken = (id) => {
 const generateRefreshToken = (user) => {
     // 1. Create expiry object
     const refreshTokenExpires = moment().add(
-        JWT_CONFIG.REFRESH_EXPIRY
+        JWT_CONFIG.REFRESH_EXPIRY, "days"
     );
 
     // 2. Generate the token
