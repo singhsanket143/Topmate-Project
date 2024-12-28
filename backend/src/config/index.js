@@ -7,4 +7,10 @@ module.exports = {
     DB_URL: process.env.DB_URL,
     ROUTE_PREFIX: process.env.ROUTE_PREFIX || '/api/v1',
     NODE_ENV: process.env.NODE_ENV || 'development',
+    JWT_CONFIG: {
+        ACCESS_EXPIRY: process.env.JWT_ACCESS_EXPIRY || '1h',
+        ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'sample_key',
+        VERIFICATION_EXPIRY: process.env.JWT_VERIFICATION_EXPIRY || '1h',
+        REFRESH_EXPIRY: process.env.JWT_REFRESH_EXPIRY || '1d',
+    }
 }
