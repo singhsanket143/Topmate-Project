@@ -10,6 +10,7 @@ module.exports = {
     JWT_CONFIG: {
         ACCESS_EXPIRY: process.env.JWT_ACCESS_EXPIRY || '1h',
         ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'sample_key',
+        REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'refresh_key',
         VERIFICATION_EXPIRY: process.env.JWT_VERIFICATION_EXPIRY || '1h',
         REFRESH_EXPIRY: process.env.JWT_REFRESH_EXPIRY || '1d',
     }

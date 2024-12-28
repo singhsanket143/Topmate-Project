@@ -3,7 +3,7 @@ const CustomError = require("../utils/CustomError");
 const { NODE_ENV } = require("../config");
 
 const errorHandler = (err, req, res, next) => {
-
+    console.error(err);
     // We can detect if the error is known to us or now ? 
     if(err instanceof CustomError) {
         const { message, statusCode, errorContext} = err;

@@ -1,6 +1,7 @@
 const userRepository = require("../repositories/user.repository");
 const BadRequest = require("../utils/errors/badRequestError");
 const NotFound = require("../utils/errors/notFoundError");
+const { generateAuthToken, generateRefreshToken } = require("./token.service");
 async function signupUserService(userData) {
     try {
         const user = await userRepository.create(userData);
@@ -34,9 +35,15 @@ async function signinUserService(userData) {
     }
 
     // 5. Create a new JWT token
-    const token = "12345"; // TODO: Implement JWT token generation
+    const accessToken = generateAuthToken(user);
 
-    return token;
+    // 6. Create a new refresh token
+    const refreshToken = generateRefreshToken(user);
+
+    return {
+        accessToken,
+        refreshToken
+    };
 
 }
 

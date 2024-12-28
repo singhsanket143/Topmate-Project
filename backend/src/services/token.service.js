@@ -24,9 +24,9 @@ const generateToken = (userId, expiresIn, secretKey) => {
  * @param { Basic details for user } user
  * Generate an access token for the user authentication
  */
-const generateAuthToken = async (user) => {
+const generateAuthToken = (user) => {
     // 1. Create expiry object
-    const accessTokenExpires = moment().add()(
+    const accessTokenExpires = moment().add(
         JWT_CONFIG.ACCESS_EXPIRY
     );
 
@@ -47,7 +47,7 @@ const generateAuthToken = async (user) => {
  */
 const generateVerificationToken = (id) => {
     // 1. Create expiry object
-    const verificationTokenExpires = moment().add()(
+    const verificationTokenExpires = moment().add(
         JWT_CONFIG.VERIFICATION_EXPIRY
     );
 
@@ -68,7 +68,7 @@ const generateVerificationToken = (id) => {
  */
 const generateRefreshToken = (user) => {
     // 1. Create expiry object
-    const refreshTokenExpires = moment().add()(
+    const refreshTokenExpires = moment().add(
         JWT_CONFIG.REFRESH_EXPIRY
     );
 
@@ -76,7 +76,7 @@ const generateRefreshToken = (user) => {
     const refreshToken = generateToken(
         user._id,
         refreshTokenExpires,
-        JWT_CONFIG.ACCESS_SECRET
+        JWT_CONFIG.REFRESH_SECRET
     );
 
     return refreshToken;

@@ -18,11 +18,20 @@ async function signinController(req, res) {
     // 1. Call the service function
     const response = await signinUserService(req.body);
 
+    // 2. Set HTTP Only cookie in response
+    res.cookie("refreshToken", response.refreshToken, {
+        httpOnly: true,
+        sameSite: 'None',
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    });
+
+    // 3. Send the response
     return res.status(StatusCodes.OK).json({
-        data: response,
+        data: response.accessToken,
         sucess: true,
         message: "User signed in successfully"
-    })
+    });
 }
 
 async function verifyEmailController(req, res) {
