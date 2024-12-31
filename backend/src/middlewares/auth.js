@@ -1,6 +1,7 @@
 const { JWT_CONFIG } = require("../config");
 const { verifyToken } = require("../services/token.service");
 const { getUserDetailsService } = require("../services/user.service");
+const Forbidden = require("../utils/errors/forbiddenError");
 const UnAuthorized = require("../utils/errors/unauthorizedError");
 
 /**
@@ -48,6 +49,23 @@ const protect = async (req, res, next) => {
     }
 }
 
+/**
+ * Middleware to restrict access to specific roles.
+ * 
+ * @param {...string} roles - The roles that are allowed access.
+ * @returns {Function} Middleware function to check user role.
+ * @throws {Forbidden} If the user's role is not included in the allowed roles.
+ */
+const restrictTo = (...roles) => {
+    return (req, res, next) => {
+        if(!roles.includes(req.user.role)) {
+            throw new Forbidden();
+        }
+        next();
+    }
+}
+
 module.exports = {
-    protect
+    protect,
+    restrictTo
 }

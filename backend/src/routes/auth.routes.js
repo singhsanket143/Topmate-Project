@@ -1,10 +1,12 @@
 const express = require('express');
-const { signupController, signinController, verifyEmailController } = require('../controllers/auth.controller');
+const { signupController, signinController, verifyEmailController, changeUserRoleController } = require('../controllers/auth.controller');
 const { validateBody } = require('../middlewares/validate');
 const {
     signupValidator,
-    signinValidator
+    signinValidator,
+    changeUserRoleValidator
 } = require('../validators/auth.validator');
+const { protect, restrictTo } = require('../middlewares/auth');
 
 const authRouter = express.Router();
 
@@ -21,5 +23,13 @@ authRouter.post(
 );
 
 authRouter.get('/verifyEmail/:verificationToken', verifyEmailController);
+
+authRouter.put(
+    '/role', 
+    protect, // If the user is signed in, then only he can change the role
+    restrictTo('admin'), // Only admin can change the role
+    validateBody(changeUserRoleValidator),
+    changeUserRoleController
+);
 
 module.exports = authRouter;

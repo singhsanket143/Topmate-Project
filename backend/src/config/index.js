@@ -8,10 +8,10 @@ module.exports = {
     ROUTE_PREFIX: process.env.ROUTE_PREFIX || '/api/v1',
     NODE_ENV: process.env.NODE_ENV || 'development',
     JWT_CONFIG: {
-        ACCESS_EXPIRY: process.env.JWT_ACCESS_EXPIRY || '1hour',
+        ACCESS_EXPIRY: process.env.JWT_ACCESS_EXPIRY || '1',
         ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'sample_key',
         REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'refresh_key',
-        VERIFICATION_EXPIRY: process.env.JWT_VERIFICATION_EXPIRY || '1hour',
-        REFRESH_EXPIRY: process.env.JWT_REFRESH_EXPIRY || '1day',
+        VERIFICATION_EXPIRY: process.env.JWT_VERIFICATION_EXPIRY || '1',
+        REFRESH_EXPIRY: process.env.JWT_REFRESH_EXPIRY || '1',
     }
 }

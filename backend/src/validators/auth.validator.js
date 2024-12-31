@@ -1,4 +1,5 @@
 const { z } = require('zod');
+const mongoose = require('mongoose');
 
 const signupValidator = z.object({
     email: z
@@ -42,7 +43,21 @@ const signinValidator = z.object({
     password: z.string().min(6),
 });
 
+const changeUserRoleValidator = z.object({
+    userId: z.string({
+        message: "User id to be updated is missing from the request",
+    }).refine((id) => mongoose.Types.ObjectId.isValid(id), {
+            message: "Invalid user id passed in the params"
+    }),
+    role: z
+        .string({ message: "Role to be updated is missing from the request" })
+        .refine((role) => ['admin', 'mentor', 'mentee'].includes(role), {
+            message: "Invalid role passed in the params"
+        })
+});
+
 module.exports = {
     signupValidator,
-    signinValidator
+    signinValidator,
+    changeUserRoleValidator
 }

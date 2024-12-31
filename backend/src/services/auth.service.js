@@ -47,8 +47,23 @@ async function signinUserService(userData) {
 
 }
 
+/**
+ * Changes the role of a user.
+ *
+ * @param {string} userId - The ID of the user whose role is to be changed.
+ * @param {string} role - The new role to be assigned to the user.
+ * @returns {Promise<Object>} The response from the user repository update function.
+ */
+async function changeUserRoleService(userId, role) {
+    // 1. Call the crud repository update function to update the role
+    const response = await userRepository.update(userId, { role: role.toLowerCase() });
+
+    // 2. return the response
+    return response;
+}
 
 module.exports = {
     signupUserService,
-    signinUserService
+    signinUserService,
+    changeUserRoleService
 }
