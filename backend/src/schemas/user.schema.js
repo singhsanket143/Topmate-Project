@@ -1,6 +1,34 @@
 const mongoose = require('mongoose'); // Import mongoose
 const bcrypt = require('bcrypt'); // Import bcrypt
 
+/**
+ * User Schema
+ * 
+ * This schema defines the structure of the user document in the MongoDB database.
+ * 
+ * @property {String} username - The username of the user. It is required and trimmed.
+ * @property {String} avatar - The avatar URL of the user. It has a default value of an empty string.
+ * @property {String} email - The email address of the user. It is required, unique, trimmed, and must match a valid email format.
+ * @property {String} password - The password of the user. It is required, trimmed, and hidden by default.
+ * @property {Boolean} verified - Indicates if the user's email is verified. Default is false.
+ * @property {Object} verificationToken - The token used for email verification.
+ * @property {String} verificationToken.value - The value of the verification token. Default is an empty string.
+ * @property {Date} verificationToken.expires - The expiration date of the verification token. Default is 1 hour from creation.
+ * @property {String} role - The role of the user. It can be "admin", "mentor", or "mentee". Default is "mentee".
+ * @property {Object} profile - The profile information of the user.
+ * @property {String} profile.title - The title of the user's profile. Default is "Your sample title".
+ * @property {String} profile.bio - The bio of the user's profile. Default is "Your sample bio".
+ * @property {String} profile.college - The college of the user. Default is an empty string.
+ * @property {Array<ObjectId>} profile.tags - The tags associated with the user. Default is an empty array.
+ * @property {Object} profile.social - The social media links of the user.
+ * @property {String} profile.social.linkedin - The LinkedIn profile URL of the user. Default is an empty string.
+ * @property {String} profile.social.github - The GitHub profile URL of the user. Default is an empty string.
+ * @property {String} profile.social.twitter - The Twitter profile URL of the user. Default is an empty string.
+ * @property {String} profile.social.instagram - The Instagram profile URL of the user. Default is an empty string.
+ * @property {String} profile.social.youtube - The YouTube channel URL of the user. Default is an empty string.
+ * 
+ * @typedef {Object} User
+ */
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -40,6 +68,11 @@ const userSchema = new mongoose.Schema({
             type: Date,
             default: () => Date.now() + 3600000 // 1 hour
         }
+    },
+    role: {
+        type: String,
+        enum: ["admin", "mentor", "mentee"],
+        default: "mentee"
     },
     profile: {
         title: {
