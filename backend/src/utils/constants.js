@@ -6,9 +6,9 @@ const ENUM = {
         CONFIRMED: 'CONFIRMED'
     },
     ROLE: {
-        MENTOR: 'MENTOR',
-        MENTEE: 'MENTEE',
-        ADMIN: 'ADMIN'
+        MENTOR: 'mentor',
+        MENTEE: 'mentee',
+        ADMIN: 'admin'
     }
 }
 
