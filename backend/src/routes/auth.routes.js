@@ -7,6 +7,7 @@ const {
     changeUserRoleValidator
 } = require('../validators/auth.validator');
 const { protect, restrictTo } = require('../middlewares/auth');
+const ENUM = require('../utils/constants');
 
 const authRouter = express.Router();
 
@@ -27,7 +28,7 @@ authRouter.get('/verifyEmail/:verificationToken', verifyEmailController);
 authRouter.put(
     '/role', 
     protect, // If the user is signed in, then only he can change the role
-    restrictTo('admin'), // Only admin can change the role
+    restrictTo(ENUM.ROLE.ADMIN), // Only admin can change the role
     validateBody(changeUserRoleValidator),
     changeUserRoleController
 );

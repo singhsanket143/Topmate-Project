@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'); // Import mongoose
 const bcrypt = require('bcrypt'); // Import bcrypt
+const ENUM = require('../utils/constants');
 
 /**
  * User Schema
@@ -71,8 +72,8 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["admin", "mentor", "mentee"],
-        default: "mentee"
+        enum: [ENUM.ROLE.ADMIN, ENUM.ROLE.MENTOR, ENUM.ROLE.MENTEE],
+        default: ENUM.ROLE.MENTEE
     },
     profile: {
         title: {

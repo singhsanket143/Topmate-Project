@@ -41,7 +41,7 @@ const serviceSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Duration is required to create a service"]
     }
-});
+}, { timestamps: true });
 
 const Service = mongoose.model("Service", serviceSchema);
 

@@ -1,5 +1,6 @@
 const { z } = require('zod');
 const mongoose = require('mongoose');
+const ENUM = require('../utils/constants');
 
 const signupValidator = z.object({
     email: z
@@ -51,7 +52,7 @@ const changeUserRoleValidator = z.object({
     }),
     role: z
         .string({ message: "Role to be updated is missing from the request" })
-        .refine((role) => ['admin', 'mentor', 'mentee'].includes(role), {
+        .refine((role) => [ENUM.ROLE.ADMIN, ENUM.ROLE.MENTEE, ENUM.ROLE.MENTOR].includes(role), {
             message: "Invalid role passed in the params"
         })
 });
