@@ -1,5 +1,5 @@
-const { getAllMentors, update } = require("../repositories/user.repository");
-
+const { getAllMentors, update, getMentorInformationByUsername } = require("../repositories/user.repository");
+const NotFound = require('../utils/errors/notFoundError');
 /**
  * Retrieves all mentors.
  *
@@ -25,7 +25,18 @@ async function verifyMentorService(mentorId) {
     return verifiedMentor;
 }
 
+async function getMentorInfoByUsernameService(username) {
+    const mentor = await getMentorInformationByUsername(username);
+
+    if(!mentor) {
+        throw new NotFound("Mentor with the given username not found");
+    }
+
+    return mentor;
+}
+
 module.exports = {
     getAllMentorsService,
-    verifyMentorService
+    verifyMentorService,
+    getMentorInfoByUsernameService
 }

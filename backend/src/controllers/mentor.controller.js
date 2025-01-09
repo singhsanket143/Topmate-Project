@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const { getAllMentorsService, verifyMentorService } = require("../services/mentor.service");
+const { getAllMentorsService, verifyMentorService, getMentorInfoByUsernameService } = require("../services/mentor.service");
 
 /**
  * Controller to get all mentors.
@@ -25,6 +25,29 @@ async function getAllMentorsController(req, res) {
     });
 }
 
+
+/**
+ * Controller to get any mentor's information by username.
+ * 
+ * This function handles the request to fetch a mentor's information by calling the mentor service.
+ * 
+ * @async 
+ * @function getMentorInfoByUserNameController
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+async function getMentorInfoByUserNameController(req, res) {
+    // 1. Call the mentor service to fetch the mentor information
+    const response = await getMentorInfoByUsernameService(req.params.username);
+
+    // 2. Send the response back to the client
+    return res.status(StatusCodes.OK).json({
+        success: true,
+        message: "Fetched mentor information successfully",
+        data: response
+    });
+}
+
 async function verifyMentorController(req, res) {
     // 1. Call the mentor service to verify the mentor
     const response = await verifyMentorService(req.params.mentorId);
@@ -39,5 +62,6 @@ async function verifyMentorController(req, res) {
 
 module.exports = {
     getAllMentorsController,
-    verifyMentorController
+    verifyMentorController,
+    getMentorInfoByUserNameController
 }
