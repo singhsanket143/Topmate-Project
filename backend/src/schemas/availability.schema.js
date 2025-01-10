@@ -1,4 +1,4 @@
-const mongoose = equire('mongoose');
+const mongoose = require('mongoose');
 
 /**
  * Availability Schema
@@ -40,7 +40,7 @@ const availabilitySchema = new mongoose.Schema({
         ref: "User",
         required: [true, "User details are required to create an availability"]
     },
-    weekAvaialability: {
+    weekAvailability: {
         monday: [{
             startTime: {
                 type: String,
@@ -126,8 +126,10 @@ const availabilitySchema = new mongoose.Schema({
     },
     unavailableDates: [
         {
-            type: Date,
-            required: [true, "Unavailable date is required to add an unavailable date"]
+            date: {
+                type: Date,
+                required: [true, "Unavailable date is required to add an unavailable date"]
+            }
         }
     ]
 }, { timestamps: true });

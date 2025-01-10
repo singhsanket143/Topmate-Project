@@ -3,6 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 function validateBody(zodSchema) {
     return async function customMiddleware(req, res, next) {
         try {
+            console.log(req.body);
             await zodSchema.parseAsync(req.body);
             next(); // Move to the next middleware
         } catch(error) {
