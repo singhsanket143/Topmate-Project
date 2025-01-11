@@ -7,6 +7,13 @@ const getUserDetailsValidator = z.object({
     })
 });
 
+const mentorIdValidator = z.object({
+    mentorId: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
+        message: "Invalid mentor id passed in the params"
+    })
+})
+
 module.exports = {
+    mentorIdValidator,
     getUserDetailsValidator
 }

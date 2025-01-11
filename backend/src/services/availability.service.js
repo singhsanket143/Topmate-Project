@@ -1,6 +1,8 @@
 const availabilityRepository = require("../repositories/availability.repository");
+const userRepository = require("../repositories/user.repository");
 const ENUM = require("../utils/constants")
 const Forbidden = require('../utils/errors/forbiddenError');
+const NotFound = require("../utils/errors/notFoundError");
 
 /**
  * 
@@ -29,6 +31,29 @@ const createAvailabilityService = async (user, availabilityData) => {
 
 };
 
+/**
+ * 
+ * GetAvailabilityService fetches the availability record of the mentor based on the mentorId/userId
+ * 
+ * @function - getAvailabilityService
+ * @async
+ * @param {ObjectId} userId - Id of the user whose availability is to be fetched 
+ * @returns {Promise<Object>} - Availability object
+ */
+const getAvailabilityService = async (mentorId) => {
+
+    // 1. Check if a user with this id exist or not ? 
+    const mentor = await userRepository.getById(mentorId);
+
+    if(!mentor || mentor.role !== ENUM.ROLE.MENTOR) {
+        throw new NotFound("No mentor found with this id");
+    }
+
+    const availability = await availabilityRepository.getAvailabilityByMentorId(mentorId);
+    return availability;
+}
+
 module.exports = {
-    createAvailabilityService
+    createAvailabilityService,
+    getAvailabilityService
 }
