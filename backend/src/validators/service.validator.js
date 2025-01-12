@@ -19,9 +19,16 @@ const getServiceByIdSchema = z.object({
     serviceId: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
             message: "Invalid service id passed in the params"
         })
+});
+
+const getServiceByMentorIdSchema = z.object({
+    mentorId: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
+            message: "Invalid service id passed in the params"
+        })
 })
 
 module.exports = {
     createServiceValidatorSchema,
-    getServiceByIdSchema
+    getServiceByIdSchema,
+    getServiceByMentorIdSchema
 }

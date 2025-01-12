@@ -1,4 +1,6 @@
 const serviceRepository = require("../repositories/service.repository");
+const userRepository = require('../repositories/user.repository');
+const ENUM = require("../utils/constants");
 const NotFound = require("../utils/errors/notFoundError");
 
 /**
@@ -45,8 +47,32 @@ const getAllServices = async () => {
     return services;
 }
 
+/**
+ * 
+ * This function fetches all the services listed by a mentor
+ * 
+ * @function getServicesByMentorId 
+ * @async 
+ * @param {ObjectId} mentorId - ObjectID representing the mentor for whom we have to fetch the services 
+ * @returns {Promise<Object>} - Promise object represents the list of services fetched from the database
+ */
+const getSevicesByMentorId = async (mentorId) => {
+
+    // 1. Check if a valid mentor exists for the corresponding id or not ?\
+    const mentor = await userRepository.getById(mentorId);
+    console.log(mentor)
+
+    if(!mentor || mentor.role === ENUM.ROLE.MENTEE) {
+        throw new NotFound(`Mentor with id ${mentorId} not found`);
+    }
+
+    const services = await serviceRepository.getServicesByMentorId(mentorId);
+    return services;
+}
+
 module.exports = {
     createService,
     getServiceById,
-    getAllServices
+    getAllServices,
+    getSevicesByMentorId
 }

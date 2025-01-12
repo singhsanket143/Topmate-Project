@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const { createService, getServiceById, getAllServices } = require("../services/service.service");
+const { createService, getServiceById, getAllServices, getSevicesByMentorId } = require("../services/service.service");
 
 /**
  * This controller function creates a service in the 
@@ -69,8 +69,31 @@ async function getAllServicesController(req, res) {
     });
 }
 
+/**
+ * 
+ * This controller function fetches a list of all services from the database for a given mentor
+ * 
+ * @function getServicesByMentorIdController
+ * @async 
+ * @param {Object} req - Incoming request object repsenting the HTTP request 
+ * @param {Object} res - Outgoing response object used to send the HTTP response
+ * @returns {Promise<void>} - Sends a JSON response with the list of services
+ */
+async function getServicesByMentorIdController(req, res) {
+    // 1. Call the service layer and fetch the list of services
+    const response = await getSevicesByMentorId(req.params.mentorId);
+
+    // 2. Send the response back to the client
+    return res.status(StatusCodes.OK).json({
+        success: true,
+        message: "Fetched all services for the given mentor",
+        data: response
+    });
+}
+
 module.exports = {
     createServiceController,
     getServiceByIdController,
-    getAllServicesController
+    getAllServicesController,
+    getServicesByMentorIdController
 }
