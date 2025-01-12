@@ -25,6 +25,27 @@ const serviceRepository = {
             mentor: mentorId,
         });
         return services;
+    },
+
+    /**
+     * 
+     * This function updates a service by the mentor who has created it
+     * 
+     * @function updateServiceByMentor
+     * @async 
+     * @param {ObjectId} mentorId - Mentor id represents the mentor to which service belongs
+     * @param {ObjectId} serviceId - Service id to be updated
+     * @param {Object} data - Data to be updated
+     * @returns {Promise<Object>} - Promise object represents the updated service
+     */
+    updateServiceByMentor: async (mentorId, serviceId, data) => {
+        const updatedService = await Service.findOneAndUpdate({
+            _id: serviceId,
+            mentor: mentorId
+        }, data, {
+            new: true
+        });
+        return updatedService;
     }
 };
 

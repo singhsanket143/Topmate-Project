@@ -1,6 +1,7 @@
 const serviceRepository = require("../repositories/service.repository");
 const userRepository = require('../repositories/user.repository');
 const ENUM = require("../utils/constants");
+const Forbidden = require("../utils/errors/forbiddenError");
 const NotFound = require("../utils/errors/notFoundError");
 
 /**
@@ -68,11 +69,43 @@ const getSevicesByMentorId = async (mentorId) => {
 
     const services = await serviceRepository.getServicesByMentorId(mentorId);
     return services;
+};
+
+/**
+ * 
+ * This function updates a service in the database
+ * 
+ * @function updateService
+ * @async 
+ * @param {ObjectId} serviceId - Id representing the service to be updated
+ * @param {Object} serviceData - Object containing the updated data for the service
+ * @returns {Promise<Object>} - Promise object represents the updated service
+ */
+const updateService = async (user, serviceId, serviceData) => {
+    // const updatedService = await serviceRepository.updateServiceByMentor(user._id, serviceId, serviceData);
+
+    // if(!updatedService) {
+    //     throw new NotFound(`Service with id ${serviceId} not found`);
+    // }
+    // return updatedService;
+
+    const service = await serviceRepository.getById(serviceId);
+    if(!service) {
+        throw new NotFound(`Service with id ${serviceId} not found`);
+    }
+
+    if(service.mentor.toString() !== user._id.toString()) {
+        throw new Forbidden("You are not authorized to update this service");
+    }
+
+    const updatedService = await serviceRepository.update(serviceId, serviceData);
+    return updatedService;
 }
 
 module.exports = {
     createService,
     getServiceById,
     getAllServices,
-    getSevicesByMentorId
+    getSevicesByMentorId,
+    updateService
 }

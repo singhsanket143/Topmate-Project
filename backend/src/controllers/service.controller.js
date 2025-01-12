@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const { createService, getServiceById, getAllServices, getSevicesByMentorId } = require("../services/service.service");
+const { createService, getServiceById, getAllServices, getSevicesByMentorId, updateService } = require("../services/service.service");
 
 /**
  * This controller function creates a service in the 
@@ -91,9 +91,32 @@ async function getServicesByMentorIdController(req, res) {
     });
 }
 
+/**
+ * 
+ * This controller function updates data of a given service
+ * 
+ * @function updateServiceController
+ * @async 
+ * @param {Object} req - Incoming request object repsenting the HTTP request 
+ * @param {Object} res - Outgoing response object used to send the HTTP response
+ * @returns {Promise<void>} - Sends a JSON response with the list of services
+ */
+async function updateServiceController(req, res) {
+    // 1. Call the service layer and update the service
+    const response = await updateService(req.user, req.params.serviceId, req.body);
+
+    // 2. Send the response back to the client
+    return res.status(StatusCodes.OK).json({
+        message: "Service updated successfully",
+        success: true,
+        data: response
+    });
+}
+
 module.exports = {
     createServiceController,
     getServiceByIdController,
     getAllServicesController,
-    getServicesByMentorIdController
+    getServicesByMentorIdController,
+    updateServiceController
 }
