@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { z } = require('zod');
 
 const createServiceValidatorSchema = z.object({
@@ -14,6 +15,13 @@ const createServiceValidatorSchema = z.object({
     active: z.boolean().optional()
 });
 
+const getServiceByIdSchema = z.object({
+    serviceId: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id), {
+            message: "Invalid service id passed in the params"
+        })
+})
+
 module.exports = {
-    createServiceValidatorSchema
+    createServiceValidatorSchema,
+    getServiceByIdSchema
 }

@@ -1,9 +1,9 @@
 const express = require('express');
-const { createServiceController } = require('../controllers/service.controller');
+const { createServiceController, getServiceByIdController, getAllServicesController } = require('../controllers/service.controller');
 const { protect, restrictTo } = require('../middlewares/auth');
 const ENUM = require('../utils/constants');
-const { validateBody } = require("../middlewares/validate");
-const { createServiceValidatorSchema } = require('../validators/service.validator');
+const { validateBody, validateParams } = require("../middlewares/validate");
+const { createServiceValidatorSchema, getServiceByIdSchema } = require('../validators/service.validator');
 
 const serviceRouter = express.Router();
 
@@ -14,5 +14,13 @@ serviceRouter.post(
     validateBody(createServiceValidatorSchema),
     createServiceController
 );
+
+serviceRouter.get(
+    '/:serviceId',
+    validateParams(getServiceByIdSchema),
+    getServiceByIdController
+);
+
+serviceRouter.get('/', getAllServicesController);
 
 module.exports = serviceRouter;
