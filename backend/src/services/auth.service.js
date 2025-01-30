@@ -2,6 +2,21 @@ const userRepository = require("../repositories/user.repository");
 const BadRequest = require("../utils/errors/badRequestError");
 const NotFound = require("../utils/errors/notFoundError");
 const { generateAuthToken, generateRefreshToken } = require("./token.service");
+
+
+/**
+ * Service to handle user signup.
+ *
+ * @async
+ * @function signupUserService
+ * @param {Object} userData - The data of the user to be created.
+ * @param {string} userData.username - The username of the user.
+ * @param {string} userData.password - The password of the user.
+ * @param {string} userData.email - The email of the user.
+ * @returns {Promise<Object>} The created user object.
+ * @throws {BadRequest} If the user already exists.
+ * @throws {Error} If there is an error during user creation.
+ */
 async function signupUserService(userData) {
     try {
         const user = await userRepository.create(userData);
@@ -15,6 +30,16 @@ async function signupUserService(userData) {
     }
 }
 
+/**
+ * Service to sign in a user.
+ *
+ * @param {Object} userData - The user data.
+ * @param {string} userData.email - The email of the user.
+ * @param {string} userData.password - The password of the user.
+ * @returns {Promise<Object>} An object containing the access token and refresh token.
+ * @throws {NotFound} If the user for the given email is not found.
+ * @throws {BadRequest} If the provided password is invalid.
+ */
 async function signinUserService(userData) {
     const { email, password } = userData;
 
