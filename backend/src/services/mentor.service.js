@@ -1,4 +1,4 @@
-const { getAllMentors, update, getMentorInformationByUsername } = require("../repositories/user.repository");
+const { getAllMentors, update, getMentorInformationByUsername, getMentorInformationByUserId } = require("../repositories/user.repository");
 const NotFound = require('../utils/errors/notFoundError');
 /**
  * Retrieves all mentors.
@@ -25,6 +25,15 @@ async function verifyMentorService(mentorId) {
     return verifiedMentor;
 }
 
+/**
+ * Retrieves mentor information by username.
+ *
+ * @async
+ * @function getMentorInfoByUsernameService
+ * @param {string} username - The username of the mentor.
+ * @returns {Promise<Object>} The mentor information.
+ * @throws {NotFound} If no mentor is found with the given username.
+ */
 async function getMentorInfoByUsernameService(username) {
     const mentor = await getMentorInformationByUsername(username);
 
@@ -35,8 +44,28 @@ async function getMentorInfoByUsernameService(username) {
     return mentor;
 }
 
+/**
+ * Retrieves mentor information by id.
+ *
+ * @async
+ * @function getMentorInfoByIdService
+ * @param {string} mentorId - The objectid of the mentor.
+ * @returns {Promise<Object>} The mentor information.
+ * @throws {NotFound} If no mentor is found with the given id.
+ */
+async function getMentorInfoByIdService(mentorId) {
+    const mentor = await getMentorInformationByUserId(mentorId);
+
+    if(!mentor) {
+        throw new NotFound("Mentor with the given id not found");
+    }
+
+    return mentor;
+}
+
 module.exports = {
     getAllMentorsService,
     verifyMentorService,
-    getMentorInfoByUsernameService
+    getMentorInfoByUsernameService,
+    getMentorInfoByIdService
 }

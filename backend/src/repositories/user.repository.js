@@ -56,6 +56,23 @@ const userRepository = {
         }).select('-password -verificationToken');
 
         return mentor;
+    },
+
+    /**
+     * Fetches a mentor document by id.
+     * 
+     * @async 
+     * @function getMentorInformationByUserId
+     * @param {string} id - The object id of the mentor to fetch.
+     * @returns {Promise<Object>} The mentor document with the specified username.
+     */
+    getMentorInformationByUserId: async function(userId) {
+        const mentor = await User.findOne({
+            _id: userId,
+            role: ENUM.ROLE.MENTOR
+        });
+
+        return mentor;
     }
 }
 

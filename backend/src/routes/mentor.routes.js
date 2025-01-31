@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllMentorsController, verifyMentorController, getMentorInfoByUserNameController } = require('../controllers/mentor.controller');
+const { getAllMentorsController, verifyMentorController, getMentorInfoByUserNameController, getMentorInfoByIdController } = require('../controllers/mentor.controller');
 const { protect, restrictTo } = require('../middlewares/auth');
 const ENUM = require('../utils/constants');
 const { getAvailabilityController } = require('../controllers/availability.controller');
@@ -20,6 +20,8 @@ mentorRouter.put(
 // GET /api/v1/mentors/username/:username
 mentorRouter.get('/username/:username', getMentorInfoByUserNameController);
 
+// GET /api/v1/mentors/:mentorId 
+mentorRouter.get('/:mentorId', getMentorInfoByIdController);
 
 
 module.exports = mentorRouter;
