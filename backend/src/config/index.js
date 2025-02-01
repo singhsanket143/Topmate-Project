@@ -15,8 +15,8 @@ module.exports = {
         REFRESH_EXPIRY: process.env.JWT_REFRESH_EXPIRY || '1',
     },
     EMAIL: {
-        USER: process.env.EMAIL_USER,
-        PASS: process.env.EMAIL_PASS,
+        USER: process.env.MAIL_USER,
+        PASS: process.env.MAIL_PASS,
         SMTP_HOST: process.env.SMTP_HOST,
         SMTP_PORT: process.env.SMTP_PORT,
         SMTP_SERVICE: process.env.SMTP_SERVICE
